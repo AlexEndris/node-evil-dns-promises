@@ -1,11 +1,13 @@
 Evil DNS Promises
 ========
 
-Credits to [evil-dns](https://github.com/JamesHight/node-evil-dns) by [James Hight](https://github.com/JamesHight/) for the original module.
-
 Override the IP address returned for one or more domains.
 
 Note: This module modifies the core DNS library's lookup function. Including dns.promises.
+
+Credits
+-------
+Credits to [evil-dns](https://github.com/JamesHight/node-evil-dns) by [James Hight](https://github.com/JamesHight/) for the original module.
 
 Installation
 ------------
