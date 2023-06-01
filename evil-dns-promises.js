@@ -1,6 +1,7 @@
 var dns = require('dns'),
 	net = require('net'),
 	dnsLookup = dns.lookup,
+	dnsLookupPromises = dns.promises.lookup,
 	domains = [];
 
 /**
@@ -8,14 +9,14 @@ var dns = require('dns'),
  **/
 
 dns.lookup = function(domain, options, callback) {
-	var i;
+	let i;
 
 	if (arguments.length === 2) {
 		callback = options;
 		options = {};
-	} 
+	}
 
-    var family = (typeof(options) === 'object') ? options.family : options;
+	let family = (typeof(options) === 'object') ? options.family : options;
     if (family) {
 		family = +family;
 		if (family !== 4 && family !== 6) {
@@ -24,7 +25,7 @@ dns.lookup = function(domain, options, callback) {
 	}
 
 	for (i = 0; i < domains.length; i++) {
-		var entry = domains[i];
+		const entry = domains[i];
 		if (domain.match(entry.domain)) {
 			if (!family || family === entry.family) {
 				return callback(null, entry.ip, entry.family);
@@ -36,6 +37,33 @@ dns.lookup = function(domain, options, callback) {
 };
 
 /**
+ * Override core promises DNS lookup function
+ **/
+
+dns.promises.lookup = function(domain, options) {
+	let i;
+
+	let family = (typeof(options) === 'object') ? options.family : options;
+	if (family) {
+		family = +family;
+		if (family !== 4 && family !== 6) {
+			return Promise.reject(new Error('invalid argument: `family` must be 4 or 6'));
+		}
+	}
+
+	for (i = 0; i < domains.length; i++) {
+		const entry = domains[i];
+		if (domain.match(entry.domain)) {
+			if (!family || family === entry.family) {
+				return Promise.resolve({address: entry.ip, family: entry.family});
+			}
+		}
+	}
+
+	return dnsLookupPromises.call(this, domain, options);
+}
+
+/**
  * Add a domain to the override list
  *
  * @param domain String or RegExp matching domain
@@ -43,7 +71,7 @@ dns.lookup = function(domain, options, callback) {
  **/
 
 function add(domain, ip) {
-	var entry = { ip: ip };
+	let entry = { ip: ip };
 
 	if (net.isIPv4(entry.ip)) {
 		entry.family = 4;
@@ -74,7 +102,7 @@ function add(domain, ip) {
  * @param ip String optional, if not set all domains equivalent domain will be removed
  **/
 function remove(domain, ip) {
-	var i;
+	let i;
 
 	for (i = 0; i < domains.length; i++) {
 		if (domain instanceof RegExp) {
@@ -104,7 +132,7 @@ function clear() {
 }
 
 function createRegex(val) {
-	var parts = val.split('*'),
+	let parts = val.split('*'),
 		i;
 
 	for (i = 0; i < parts.length; i++) {

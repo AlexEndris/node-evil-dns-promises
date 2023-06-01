@@ -1,28 +1,32 @@
 {
-  "name": "evil-dns",
-  "version": "0.1.0",
-  "description": "Override the IP address returned for one or more domains.",
+  "name": "evil-dns-promises",
+  "version": "1.0.0",
+  "description": "Override the IP address returned for one or more domains. For both dns.lookup and dns.promises.lookup.",
   "main": "evil-dns.js",
   "scripts": {
     "test": "mocha -R spec ./tests"
   },
   "engines": {
-    "node" : ">=0.12"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JamesHight/node-evil-dns.git"
+    "url": "https://github.com/AlexEndris/node-evil-dns-promises"
   },
   "keywords": [
     "dns",
+    "promises",
     "override",
     "domain",
     "change",
     "ip",
     "address"
   ],
-  "author": "James Hight",
+  "author": "Alex Endris",
   "contributors": [
+    {
+      "name": "James Hight"
+    },
     {
       "name": "Martin Heidegger"
     },
@@ -33,15 +37,14 @@
   "licenses": [
     {
       "type": "Apache 2.0",
-      "url": "https://github.com/JamesHight/node-evil-dns/blob/master/LICENSE"
+      "url": "https://github.com/AlexEndris/node-evil-dns-promises/blob/master/LICENSE"
     }
   ],
-  "dependencies": {},
   "bugs": {
-    "url": "https://github.com/JamesHight/node-evil-dns/issues"
+    "url": "https://github.com/AlexEndris/node-evil-dns-promises/issues"
   },
   "devDependencies": {
     "chai": "^2.1.0",
-    "mocha": "^2.1.0"
+    "mocha": "^10.2.0"
   }
 }
